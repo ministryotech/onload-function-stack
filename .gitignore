@@ -271,8 +271,9 @@ __pycache__/
 # Cake - Uncomment if you are using it
 # tools/
 
-### VisualStudio Patch ###
+### Build ###
 build/
+*.tar.gz
 
 # Built assets #
 /src/*/Test/compiled/

@@ -8,7 +8,7 @@
       "mocha": true
     },
     "parserOptions": {
-      "ecmaVersion": 5,
+      "ecmaVersion": 2015,
       "sourceType": "module",
       "ecmaFeatures": {
         "jsx": false
@@ -57,9 +57,9 @@
       "prefer-const": 1,
       "quotes": [
         2,
-        "double",
+        "single",
         {
-          "allowTemplateLiterals": true
+          "allowTemplateLiterals": false
         }
       ],
       "semi": [
