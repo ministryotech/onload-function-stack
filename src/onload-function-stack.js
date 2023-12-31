@@ -8,7 +8,7 @@
 */
 (function() {
 
-    const root = window
+    var root = window
 
     /**
      * Adds an event to the onload queue.
@@ -16,20 +16,22 @@
      * @param {?any} param1 The first (optional) parameter to the function.
      * @param {?any} param2 The second (optional) parameter to the function.
      */
-    const addLoadEvent = function(func, param1, param2) {
+    var addLoadEvent = function(func, param1, param2) {
         if (func === undefined || func === null)
-            throw Error(`Unable to load an event for an undefined or null function pointer (from ${Function.caller}).`)
+            throw Error('Unable to load an event for an undefined or null function pointer (from ' + Function.caller + ').')
 
         if (typeof window.onload !== 'function') {
             if (typeof func !== 'function') {
                 window.onload = func
             } else {
-                window.onload = () => { func(param1, param2) }
+                window.onload = function() {
+                    func(param1, param2)
+                }
             }
         } else {
-            const oldOnLoad = window.onload
-            window.onload = (ev) => {
-                if (oldOnLoad) { oldOnLoad(ev) }
+            var oldOnLoad = window.onload
+            window.onload = function(ev) {
+                if (oldOnLoad) oldOnLoad(ev)
                 func(param1, param2)
             }
         }
@@ -39,8 +41,8 @@
      * Manages a stack of events that will trigger on page load.
      * @type {{add: addLoadEvent}}
      */
-    const StackManager = {
-        add: addLoadEvent
+    var StackManager = {
+        add: addLoadEvent,
     }
 
     /*--------------------------------------------------------------------------*/
@@ -49,11 +51,13 @@
     // noinspection JSUnresolvedReference - define check for require.js module support.
     if (typeof define === 'function' && define.amd) {
         // noinspection JSUnresolvedReference - define check for require.js module support.
-        define('onload-function-stack', [], function() { return StackManager })
+        define('onload-function-stack', [], function() {
+            return StackManager
+        })
     } else if (typeof exports === 'object') {
         module.exports = StackManager
     } else {
         root.OnLoadStack = StackManager
     }
-    
+
 })()
