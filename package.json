@@ -16,19 +16,24 @@
   },
   "main": "onload-function-stack.js",
   "devDependencies": {
-    "eslint": "^8.56.0",
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "esbuild": "^0.19.11",
+    "eslint": "^7.32.0",
     "eslint-config-defaults": "^9.0.0",
-    "uglify-js": "^3.17.4"
+    "typescript": "^5.1.6"
   },
   "dependencies": {},
   "scripts": {
     "lint": "eslint src/*.js --fix",
     "ensure-dir": "mkdir ./dist",
     "clean": "rm -rf ./dist",
-    "uglify": "uglifyjs src/onload-function-stack.js -m -o ./dist/onload-function-stack.js && uglifyjs src/onload-function-stack.js -m -c -o ./dist/onload-function-stack.min.js",
-    "build": "npm run clean && npm run ensure-dir && npm run uglify && cp README.md ./dist/ && cp package.json ./dist/",
-    "publish-to-npm": "npm publish dist/",
-    "build-tar-for-github": "tar -czvf onload-function-stack.tar.gz dist/",
-    "release": "npm run lint && npm run build && npm run publish-to-npm && npm run build-tar-for-github"
+    "esbuild:min": "esbuild ./dist/onload-function-stack.js --minify --outfile=./dist/onload-function-stack.min.js",
+    "tsc:build": "npx tsc",
+    "tsc:package": "npm run clean && npm run ensure-dir && npm run tsc:build && npm run esbuild:min && cp README.md ./dist/ && cp package.json ./dist/",
+    "publish:npm": "npm publish dist/",
+    "publish:tar": "tar -czvf onload-function-stack.tar.gz dist/",
+    "release": "npm run lint && npm run tsc:package && npm run publish:npm && npm run publish:tar"
   }
 }
